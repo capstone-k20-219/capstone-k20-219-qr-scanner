@@ -19,7 +19,7 @@ firebase_admin.initialize_app(cred, {
 })
 
 # Get the reference to the Firebase database node
-ref = db.reference("/qrCode")
+ref = db.reference("/scanData/qrCode")
 
 # Open the camera
 cv.namedWindow("QR Scanner", cv.WINDOW_NORMAL)
@@ -39,6 +39,7 @@ while rval:
     data, bbox, _ = detector.detectAndDecode(frame)
     if data:
         cv.polylines(frame, [np.int32(bbox)], True, (0, 255, 0), 5)
+        # currentData = ref.get()
         if previousQRCode != data:
             previousQRCode = data
             ref.set(data)
