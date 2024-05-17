@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials, db
+import time
 
 # Load the QRCode Detector
 detector = cv.QRCodeDetector()
@@ -39,10 +40,8 @@ while rval:
     data, bbox, _ = detector.detectAndDecode(frame)
     if data:
         cv.polylines(frame, [np.int32(bbox)], True, (0, 255, 0), 5)
-        # currentData = ref.get()
-        if previousQRCode != data:
-            previousQRCode = data
-            ref.set(data)
+        ref.set(data)
+        time.sleep(5)
     cv.imshow("QR Scanner", frame)
     key = cv.waitKey(20)
     if key == 27: # exit on ESC
